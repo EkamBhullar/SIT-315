@@ -8,6 +8,7 @@ void setup()
 pinMode(2,INPUT_PULLUP);
   pinMode(7, OUTPUT);
   attachInterrupt(digitalPinToInterrupt(2),isr,FALLING);
+  attachInterrupt(digitalPinToInterrupt(3),pir,RISING);
 }
 
 void loop()
@@ -17,18 +18,17 @@ void loop()
   float temperature=(miliVoltage-500)/10;
   Serial.print("Temperature: ");
   Serial.println(temperature);
-  state= digitalRead(4);
+  state= digitalRead(3);
   
-  if(temperature>25 and state==HIGH){
-  digitalWrite(7, HIGH);
-  }
-  else{
-    digitalWrite(7,LOW);
-  }
+ 
   delay(1000);
   digitalWrite(13,LOW);
 }
 void isr(){
   digitalWrite(13,HIGH);
-  Serial.println("Task Interrupted");
+  Serial.println(" Interrupted by Push Button");
+}
+void pir(){
+  digitalWrite(7,HIGH);
+  Serial.println("Interrupted By PIR Sensor");
 }
